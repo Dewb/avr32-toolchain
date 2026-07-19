@@ -58,6 +58,12 @@ If you would like to build dfu-programmer, also install libusb:
 sudo apt-get install libusb-dev
 ----
 
+If installing on arm64 or aarch64, install autotools-dev so you have an up-to-date config.guess:
+
+----
+sudo apt-get install autotools-dev
+----
+
 === Main Build Instructions ===
 
 Next build the toolchain:

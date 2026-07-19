@@ -34,6 +34,7 @@ ATMEL_HEADER_REV = 6.1.3.1475
 
 SHELL       = /bin/bash
 TARGET      = avr32
+ARCH        = $(shell uname -m)
 
 TODAY = $(shell date "+%Y%m%d")
 GIT_REV	    = $(shell git rev-parse --verify HEAD --short)
@@ -50,6 +51,12 @@ else ifeq ($(UNAME), Darwin)
 PROCS  ?= $(shell sysctl hw.ncpu | awk '{print $$2}')
 else
 PROCS  ?= 2
+endif
+
+ifeq ($(ARCH), arm64)
+UPDATE_CONFIG_PATH = /usr/share/misc
+else ifeq ($(ARCH), aarch64)
+UPDATE_CONFIG_PATH = /usr/share/misc
 endif
 
 SUPP_PREFIX = $(CURDIR)/supp
@@ -164,6 +171,7 @@ extract-autoconf stamps/extract-autoconf: downloads/$(AUTOCONF_ARCHIVE)
 	[ "$$t1" = "$(AUTOCONF_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -jxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* autoconf-$(AUTOCONF_VERSION)/build-aux
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-autoconf;
 
@@ -197,6 +205,7 @@ extract-automake stamps/extract-automake: downloads/$(AUTOMAKE_ARCHIVE)
 	[ "$$t1" = "$(AUTOMAKE_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -jxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* automake-$(AUTOMAKE_VERSION)/lib
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-automake;
 
@@ -236,6 +245,7 @@ extract-texinfo stamps/extract-texinfo: downloads/$(TEXINFO_ARCHIVE)
 	[ "$$t1" = "$(TEXINFO_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -zxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* texinfo-$(TEXINFO_VERSION)/build-aux
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-texinfo;
 
@@ -269,6 +279,7 @@ extract-gperf stamps/extract-gperf: downloads/$(GPERF_ARCHIVE)
 	[ "$$t1" = "$(GPERF_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -zxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* gperf-$(GPERF_VERSION)
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-gperf;
 
@@ -345,6 +356,7 @@ extract-newlib stamps/extract-newlib : downloads/$(NEWLIB_ARCHIVE)
 	[ "$$t1" = "$(NEWLIB_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -xf $<
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* newlib-$(NEWLIB_VERSION)
 	[ -d stamps ] || mkdir stamps
 	touch stamps/extract-newlib;
 
@@ -420,6 +432,7 @@ extract-binutils stamps/extract-binutils: downloads/$(BINUTILS_ARCHIVE)
 	[ "$$t1" = "$(BINUTILS_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -jxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* binutils-$(BINUTILS_VERSION)
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-binutils;
 
@@ -485,6 +498,7 @@ extract-dfu stamps/extract-dfu: downloads/$(DFU_ARCHIVE)
 	[ "$$t1" = "$(DFU_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -zxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* dfu_programmer-$(DFU_VERSION)
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-dfu;
 
@@ -522,6 +536,7 @@ extract-gcc stamps/extract-gcc: downloads/$(GCC_ARCHIVE)
 	[ "$$t1" = "$(GCC_MD5)" ] || \
 	( echo "Bad Checksum! Please remove the following file and retry: $<" && false ))
 	tar -jxf $< ;
+	[ -z "$(UPDATE_CONFIG_PATH)" ] || cp -f $(UPDATE_CONFIG_PATH)/config.* gcc-$(GCC_VERSION)
 	[ -d stamps ] || mkdir stamps ;
 	touch stamps/extract-gcc;
 
