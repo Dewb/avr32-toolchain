@@ -552,8 +552,8 @@ patch-gcc stamps/patch-gcc: stamps/extract-gcc stamps/extract-avr32patches
 	patch -N -p0 <../patches/gcc/03-libstdc++-with-fno-exceptions.patch ; \
 	patch -N -p1 <../patches/gcc/04-texinfo-5.0-support.patch ; \
 	patch -N -p1 <../patches/gcc/05-gperf-3.0.4.patch ; \
-   patch -N -p1 <../patches/gcc/06-texi2pod.patch ; \
-   patch -N -p1 <../patches/gcc/99_all_cgraph_node-gcc-9.patch ; \
+	patch -N -p1 <../patches/gcc/06-texi2pod.patch ; \
+	patch -N -p1 <../patches/gcc/99_all_cgraph_node-gcc-9.patch ; \
 	popd ;
 	[ -d stamps ] || mkdir stamps
 	touch stamps/patch-gcc;
